@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Politique de confidentialité — Simulateur de Frais Réels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #0F6E56;
+      --green-mid: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-text: #085041;
+      --red-soft: #FCEBEB;
+      --red-mid: #E24B4A;
+      --ink: #1a1a18;
+      --ink-muted: #5a5a56;
+      --ink-faint: #9a9a94;
+      --bg: #fafaf7;
+      --surface: #ffffff;
+      --border: #e0dfd6;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* Header band */
+    .header {
+      background: var(--green-dark);
+      color: #fff;
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    .header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .header h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 300;
+    }
+
+    /* Banner */
+    .trust-banner {
+      background: var(--green-light);
+      border-bottom: 1px solid #9FE1CB;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .trust-banner svg { flex-shrink: 0; }
+
+    .trust-banner p {
+      font-size: 14px;
+      color: var(--green-text);
+      font-weight: 500;
+    }
+
+    /* Main layout */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Sections */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.25rem;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .section:hover {
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-text);
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .section p {
+      font-size: 14.5px;
+      color: var(--ink-muted);
+      line-height: 1.8;
+    }
+
+    .section p + p { margin-top: 0.75rem; }
+
+    /* No-data grid */
+    .nodata-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .nodata-item {
+      background: var(--red-soft);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #791F1F;
+    }
+
+    .nodata-item::before {
+      content: '✕';
+      font-size: 11px;
+      color: var(--red-mid);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Permission item */
+    .perm-item {
+      background: var(--green-light);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--green-text);
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .perm-item::before {
+      content: '✓';
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Highlight callout */
+    .callout {
+      background: var(--green-light);
+      border-left: 3px solid var(--green-mid);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+      font-size: 13.5px;
+      color: var(--green-text);
+      font-style: italic;
+      font-family: 'Lora', serif;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 12px;
+      color: var(--ink-faint);
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--green-mid);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .header { padding: 2rem 1.25rem; }
+      .section { padding: 1.25rem 1.25rem; }
+      .nodata-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="badge">Application Android · France</div>
+    <h1>Politique de confidentialité</h1>
+    <p>Simulateur de Frais Réels — Déclaration d'impôts &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; Mai 2026</p>
+  </header>
+
+  <div class="trust-banner" role="note" aria-label="Engagement principal">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+    <p>Aucune donnée personnelle collectée, stockée ou transmise — l'application fonctionne entièrement sur votre appareil.</p>
+  </div>
+
+  <main class="container">
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Présentation de l'application</h2>
+      </div>
+      <p>Le <strong>Simulateur de Frais Réels</strong> est un outil de calcul fiscal conçu pour vous aider à préparer votre déclaration d'impôts sur le revenu en France. Il calcule et compare vos frais kilométriques, frais de repas et frais de télétravail avec l'abattement forfaitaire de 10 %, et génère un résumé prêt à intégrer dans la case 1AK de votre déclaration (rubrique informations complémentaires).</p>
+      <p>Cette application est développée et distribuée à titre personnel, et n'est accessible que sur invitation.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>Données personnelles — ce que nous ne faisons pas</h2>
+      </div>
+      <p>Cette application ne collecte aucune donnée personnelle. Plus précisément :</p>
+      <div class="nodata-grid" role="list">
+        <div class="nodata-item" role="listitem">Aucun compte utilisateur</div>
+        <div class="nodata-item" role="listitem">Aucun serveur distant</div>
+        <div class="nodata-item" role="listitem">Aucune donnée envoyée</div>
+        <div class="nodata-item" role="listitem">Aucun cookie ou traceur</div>
+        <div class="nodata-item" role="listitem">Aucune publicité</div>
+        <div class="nodata-item" role="listitem">Aucune analytique</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>Traitement local des données</h2>
+      </div>
+      <p>Les informations que vous saisissez dans l'application (revenus, kilométrage, nombre de jours de télétravail, nombre de chevaux fiscaux, etc.) sont traitées uniquement dans la mémoire vive de votre appareil, le temps de votre session.</p>
+      <p>Elles ne sont jamais écrites sur un disque distant, jamais transmises via Internet, et disparaissent dès que vous fermez l'application — sauf si vous choisissez vous-même de sauvegarder le résumé généré sur votre appareil.</p>
+      <div class="callout">« Ce que vous saisissez reste sur votre téléphone. Personne d'autre ne le voit. »</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>Connexion Internet</h2>
+      </div>
+      <p>L'application ne nécessite aucune connexion à Internet pour fonctionner. Aucune permission réseau n'est demandée. Vous pouvez l'utiliser entièrement hors connexion, y compris en mode avion.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>Conformité RGPD</h2>
+      </div>
+      <p>Dans la mesure où aucune donnée personnelle n'est collectée, traitée ou stockée en dehors de votre appareil, cette application n'est pas soumise aux obligations déclaratives auprès de la CNIL et ne nécessite pas de délégué à la protection des données.</p>
+      <p>L'application respecte néanmoins l'esprit du Règlement Général sur la Protection des Données (RGPD — UE 2016/679) en appliquant par conception le principe de <em>minimisation des données</em> (privacy by design).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>Permissions Android</h2>
+      </div>
+      <p>L'application demande uniquement les permissions strictement nécessaires à son fonctionnement :</p>
+      <div class="perm-item">
+        <span><strong>Stockage (lecture / écriture)</strong> — uniquement si vous choisissez d'exporter votre résumé en PDF ou fichier texte sur votre appareil.</span>
+      </div>
+      <p style="margin-top: 0.75rem;">Aucune autre permission n'est requise. L'application n'accède pas à votre appareil photo, vos contacts, votre localisation, ni à votre microphone.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>Modifications de cette politique</h2>
+      </div>
+      <p>Cette politique peut être mise à jour si les fonctionnalités de l'application évoluent. Toute modification sera signalée via une mise à jour de l'application disponible sur le Play Store. La date de version en haut de ce document indique la dernière révision.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2>Contact</h2>
+      </div>
+      <p>Pour toute question relative à cette politique de confidentialité ou au fonctionnement de l'application, vous pouvez contacter le développeur à l'adresse suivante :</p>
+      <p style="margin-top: 0.75rem; font-weight: 500; color: var(--green-dark);">[votre-adresse@email.com]</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Dernière mise à jour : mai 2026 &nbsp;·&nbsp; Développeur indépendant &nbsp;·&nbsp; France</p>
+    <p style="margin-top: 6px;">Cette page est hébergée sur <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>.</p>
+  </footer>
+
+</body>
+</html>
